@@ -1,0 +1,3 @@
+provider "nomad" {}
+
+provider "vault" {}

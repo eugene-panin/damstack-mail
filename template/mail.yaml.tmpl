@@ -1,0 +1,9 @@
+# Mail for your domains, by Stalwart. The policies refuse a plan that would destroy the
+# mailboxes; list an address under allow_destroy here to let it go.
+hostname: {{ yaml .hostname }}
+domains: {{ yaml .domains }}
+# Every domain gets these mailboxes; damstack mail output passwords prints their passwords.
+mailboxes: {{ yaml .mailboxes }}
+# SMTP, submission with implicit TLS and with STARTTLS, and IMAP with implicit TLS.
+public_ports: [25, 465, 587, 993]
+allow_destroy: []

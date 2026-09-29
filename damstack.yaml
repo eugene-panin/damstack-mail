@@ -1,0 +1,58 @@
+apiVersion: damstack/v1
+name: mail
+kind: app
+description: Mail for your domains, by Stalwart, with its DNS records, on a Nomad platform such as hashi
+requires:
+  damstack: ">=0.1.0"
+  toolbox: ">=1.0.0, <2.0.0"
+  provides: [nomad, vault-kv, ingress-traefik]
+
+questions:
+  - name: hostname
+    prompt: The name of the mail server, such as mail.example.com
+    pattern: "^[a-z0-9-]+(\\.[a-z0-9-]+)+$"
+  - name: domains
+    prompt: The domains to receive mail for
+    type: list
+    pattern: "^[a-z0-9-]+(\\.[a-z0-9-]+)+$"
+  - name: mailboxes
+    prompt: The mailboxes every domain gets, by the part before the @
+    type: list
+    default: [info]
+    pattern: "^[a-z0-9][a-z0-9._-]*$"
+
+config: template/mail.yaml.tmpl
+
+targets:
+  nomad:
+    steps:
+      - name: apply
+        tofu:
+          dir: infra
+          action: apply
+          policy: &policy {dir: policy}
+          outputs: {dns_records: dns/mail.json}
+        env: &env
+          TF_VAR_server_address: "{{ .config.server.address }}"
+        tunnel: true
+        confirm: true
+    commands:
+      plan:
+        tofu: {dir: infra, action: plan, policy: *policy}
+        env: *env
+        tunnel: true
+      output:
+        tofu: {dir: infra, action: output}
+        env: *env
+
+check:
+  answers: test/answers.yaml
+  platform: test/platform.yaml
+  steps:
+    - name: outputs
+      run:
+        - sh
+        - -c
+        - >-
+          cd /stack/infra && export TF_DATA_DIR=/work/.damstack/work/tofu-test &&
+          tofu init -backend=false -input=false -lockfile=readonly >/dev/null && tofu test -no-color

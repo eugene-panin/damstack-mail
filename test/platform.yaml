@@ -1,0 +1,16 @@
+name: check
+server:
+  address: 192.0.2.10
+  bootstrap_user: root
+  ops_user: ops
+  public_interface: eth0
+  public_ports: [80, 443]
+network:
+  cidr: 10.77.0.0/24
+  clients: [laptop]
+infra_domain: infra.example.org
+acme_email: admin@example.org
+dns:
+  provider: cloudflare
+  zones: [example.org]
+apps: {}
