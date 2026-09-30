@@ -27,6 +27,8 @@ targets:
   nomad:
     steps:
       - name: apply
+        title: Mail server
+        takes: 2 min
         tofu:
           dir: infra
           action: apply
