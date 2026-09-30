@@ -22,6 +22,10 @@ questions:
     pattern: "^[a-z0-9][a-z0-9._-]*$"
 
 config: template/mail.yaml.tmpl
+done:
+  - "IMAP {{ .app.hostname }}:993, SMTP {{ .app.hostname }}:465 and 587; mail clients find these by themselves"
+  - "Passwords of the mailboxes: damstack mail output passwords"
+  - "The certificate of the mail server comes in a few minutes, once DNS has spread."
 
 targets:
   nomad:
