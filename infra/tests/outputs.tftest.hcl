@@ -4,7 +4,6 @@ mock_provider "random" {}
 mock_provider "tls" {}
 
 variables {
-  project          = "/work"
   state_passphrase = "a passphrase for the test only"
   vault_kv_path    = "secret"
   server_address   = "192.0.2.10"

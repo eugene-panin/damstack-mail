@@ -1,10 +1,10 @@
-apiVersion: damstack/v1
+apiVersion: damstack/v2
 name: mail
 kind: app
 description: Mail for your domains, by Stalwart, with its DNS records, on a Nomad platform such as hashi
 requires:
-  damstack: ">=0.1.0"
-  toolbox: ">=1.0.0, <2.0.0"
+  damstack: ">=0.2.0"
+  toolbox: ">=1.1.0, <2.0.0"
   provides: [nomad, vault-kv, ingress-traefik]
 
 questions:
@@ -60,5 +60,5 @@ check:
         - sh
         - -c
         - >-
-          cd /stack/infra && export TF_DATA_DIR=/work/.damstack/work/tofu-test &&
+          cd "$DAMSTACK_STACK/infra" && export TF_DATA_DIR="$DAMSTACK_PROJECT/.damstack/work/tofu-test" TF_VAR_project="$DAMSTACK_PROJECT" &&
           tofu init -backend=false -input=false -lockfile=readonly >/dev/null && tofu test -no-color
