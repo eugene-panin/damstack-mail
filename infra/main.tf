@@ -5,7 +5,7 @@ locals {
 
 module "mail" {
   source  = "eugene-panin/stalwart/nomad"
-  version = "~> 0.1"
+  version = "~> 0.2"
 
   hostname      = local.mail.hostname
   domains       = local.mail.domains
