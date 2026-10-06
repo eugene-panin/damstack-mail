@@ -4,8 +4,7 @@ locals {
 }
 
 module "mail" {
-  source  = "eugene-panin/stalwart/nomad"
-  version = "~> 0.2"
+  source = "git::https://github.com/eugene-panin/terraform-nomad-stalwart.git?ref=v0.3.1"
 
   hostname      = local.mail.hostname
   domains       = local.mail.domains
